@@ -1,5 +1,12 @@
 <?php
-include "functions/database.php";
+    session_start();
+    include "functions/database.php";
+    @$loggedId = $_SESSION['id'];
+    @$loggedType = $_SESSION['type'];
+    if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type'])){
+        header("location: login.php");
+        exit;
+    }
 ?>
 <!doctype html>
 <html lang="en">
@@ -14,11 +21,11 @@ include "functions/database.php";
         body{
             margin: 0;
             background-color: whitesmoke;
+            font-family: Arial, sans-serif;
         }
         .nav{
+            height: 53px;
             background-color: white;
-            padding: 6px;
-            text-align: center;
             margin-bottom: 25px;
             border-bottom: 2px solid #d8d7d7;
             width: auto;
@@ -43,6 +50,7 @@ include "functions/database.php";
             margin-bottom: 8px;
             font-family: sans-serif;
             border-bottom: 2px solid #d8d7d7;
+            border-left: 2px solid #d8d7d7;
         }
         .link{
             text-decoration: none;
@@ -86,6 +94,13 @@ include "functions/database.php";
         .active{
             background: whitesmoke;
         }
+        #logout{
+            float: right;
+            margin-top:10px;
+            font-size: 21px;
+            color: #a5a2a2;
+            text-decoration: none;
+        }
         #reply{
             font-size: 15px;
             text-decoration: none;
@@ -111,7 +126,8 @@ include "functions/database.php";
 <body>
 <nav class="nav">
     <div class="container">
-        <h2>DATUS ANALYTICUS</h2>
+        <h2  style="margin: 6px 0 10px 0;float: left">DatosAnalyticos</h2>
+        <a href="functions/lslfunction.php?logout" type="submit" id="logout" name="logout"><i class="fas fa-sign-out-alt"  ></i>Logout</a>
     </div>
 </nav>
 <!--Content-->
@@ -119,23 +135,39 @@ include "functions/database.php";
     <div class="row">
         <div class="colOne">
             <ul>
-                <li class="active"><a href="#" class="link">All post</a></li>
-                <li><a href="#" class="link">Updates</a></li>
-                <li><a href="#" class="link">Suggest</a></li>
-                <li><a href="#" class="link">Report</a></li>
-                <li><a href="#" class="link">Contact us</a></li>
+                <li class="active"><a href="index.php" class="link" ><i class="fas fa-home fa-lg"></i> Home</a></li>
+                <li><a href="updates.php" class="link"><i class="fas fa-edit fa-lg" style="color: #a5a2a2;"></i> Updates</a></li>
+                <?php
+                if ($loggedType > 0){
+                    echo ' <li><a href="adminpost.php" class="link"><i class="fas fa-pen-alt fa-lg" style="color: #a5a2a2;"></i>  Post</a></li>';
+                    echo ' <li><a href="#" class="link"><i class="fas fa-edit fa-lg" style="color: #a5a2a2;"></i> View reports</a></li>';
+                } else{
+                    echo '<li><a href="sendreport.php" class="link">&nbsp;<i class="fas fa-file fa-lg" style="color: #a5a2a2;"></i>&nbsp;&nbsp;Report</a></li>';
+                }
+                ?>
+                <li><a href="#" class="link"><i class="fas fa-phone fa-lg" style="color: #a5a2a2;"></i>&nbsp;Contact us</a></li>
             </ul>
         </div>
-        <div>
+        <div id="qpost">
             <?php
                 $postid = $_GET['id'];
-                $vpost = DB::query("SELECT * FROM posts WHERE id=:id",array(':id'=>$postid));
-                foreach ($vpost as $v){
+                $query = mysqli_query($connect,"SELECT posts.*,users.username FROM posts,users WHERE posts.user_id=users.id AND posts.id ='$postid'  ORDER BY `id` DESC");
+                $posts = array();
+                while ($row = mysqli_fetch_array($query)){
+                    array_push($posts,$row);
+                }
+                $query = mysqli_query($connect, "SELECT * FROM likepost WHERE user_id = '$loggedId' AND post_id = '$postid'");
+                foreach ($posts as $v){
                     echo '<div class="colTwo">';
                         echo "<div>";
                         echo "<h3>".$v['title']."</h3>";
-                        echo "<small>Kim jay | ".$v['posted_at']."</small><hr/>";
+                        echo "<small>".$v['username']." | ".$v['posted_at']."</small><hr/>";
                         echo "<p>".$v['description']."</p>";
+                        if (!mysqli_num_rows($query) > 0){
+                            echo "<a href='functions/postfunction.php?id=".$postid."'>".$v['likes']."  Like</a><br>";
+                        }else{
+                            echo "<a href='functions/postfunction.php?id=".$postid."'>".$v['likes']." Unlike</a>";
+                        }
                         echo "</div>";
                     echo '</div>';
                     echo '<div class="cmsec">';
@@ -146,19 +178,25 @@ include "functions/database.php";
                         echo'</div>';
                 }
             ?>
-            <!--Comment query-->
-            <?php
-                $comment = DB::query("SELECT * FROM comments WHERE post_id = :post_id ORDER BY `id` DESC",array(':post_id'=>$postid));
-                foreach ($comment as $c){
-                    echo '<div class="commentcard">
-                              <small>Kim Jay luta | '.$c['comment_at'].'</small>
+        </div>
+        <!--Comment query-->
+        <?php
+        $query = mysqli_query($connect,"SELECT comments.*,users.username FROM comments,users WHERE comments.comment_by = users.id AND post_id = '$postid' ORDER BY id DESC");
+        $comment = array();
+        while ($row = mysqli_fetch_array($query)){
+            array_push($comment,$row);
+        }
+        foreach ($comment as $c){
+            echo '<div class="commentcard">
+                              <small>'.$c['username'].' | '.$c['comment_at'].'</small>
                               <p>'.$c['comment_text'].'</p>
                               <a href="#" id="reply">Reply |</a>
                          </div>';
-                }
-            ?>
-        </div>
+        }
+        ?>
     </div>
 </div>
+<script src="js/smooth-scroll.js"></script>
+<script src="js/jquery-3.2.1.min.js"></script>
 </body>
 </html>

@@ -1,30 +1,30 @@
 <?php
 include "database.php";
 if (isset($_POST['login'])){
-    $usn = $_POST['username'];
-    $pswd = $_POST['password'];
+    session_start();
+    @$usn = $_POST['username'];
+    @$pswd = $_POST['password'];
     if (isset($usn,$pswd)){
+        $query = mysqli_query($connect, "SELECT * FROM `users` WHERE username ='$usn' ");
+        $fetch = mysqli_fetch_array($query);
 
-       if (DB::query("SELECT username FROM `users` WHERE username=:usn", array(':usn'=>$usn))){
-           $result = DB::query("SELECT `password` FROM `users` WHERE username=:usn",array(':usn'=>$usn))[0];
-           if (password_verify($pswd,$result['password'])){
-               session_start();
-               $_SESSION['loginses'] = $usn;
-               $_SESSION['type'] = $result["type"];
-               header("location: ../index.php");
-
-           }else{
-               header("location: ../login.php?error=usnorpwd");
-               exit;
-           }
-       }else{
-           header("location: ../login.php?error=usnorpwd1");
-           exit;
-       }
+        if (mysqli_num_rows($query) > 0){
+            if (password_verify($pswd,$fetch['password'])){
+                $userType = $fetch['type'];
+                $_SESSION['user'] = $usn;
+                $_SESSION['id'] = $fetch['id'];
+                $_SESSION['type'] = $userType;
+                header("location: ../index.php");
+            } else{
+                header('location: ../login.php?error=uspw');
+                exit;
+            }
+        } else{
+            header('location: ../login.php?error=uspw1');
+            exit;
+        }
     }
-}
-//Signup
-if (isset($_POST['signup'])){
+}elseif (isset($_POST['signup'])){
     $firstname = $_POST['firstname'];
     $lastname = $_POST['lastname'];
     $usn = $_POST['username'];
@@ -35,14 +35,25 @@ if (isset($_POST['signup'])){
     if (isset($firstname,$lastname,$usn,$pswd,$email)){
         if (preg_match('/[a-zA-Z]+/',$firstname)){
             if (preg_match('/[a-zA-Z]+/',$lastname)){
-                if (!DB::query("SELECT username FROM `users` WHERE username=:usn",array(':usn'=>$usn))){
+                $query = mysqli_query($connect,"SELECT * FROM `users` WHERE username = '$usn'");
+                $fetch  = mysqli_fetch_array($query);
+                if (!mysqli_num_rows($query) > 0){
                     if (filter_var($email, FILTER_VALIDATE_EMAIL)){
                         if (strlen($pswd) >=3 && strlen($pswd) <=60){
-                            if (!DB::query("SELECT email FROM `users` WHERE username=:usn",array(':usn'=>$usn))[0]['email']){
-                                DB::query("INSERT INTO `users` VALUES ('',:usn,:pswd,:email,:fn,:ln,0)",array(':usn'=>$usn,':pswd'=>password_hash($pswd,PASSWORD_BCRYPT),':email'=>$email,':fn'=>$firstname,':ln'=>$lastname));
-                                session_start();
-                                $_SESSION['signup'] = $usn;
-                                $error = "../index.php";
+                            if (!$email == $fetch['email']){
+                                $newpass = password_hash($pswd,PASSWORD_BCRYPT);
+                                $query = mysqli_query($connect,"INSERT INTO users(`username`,`password`,`email`,`firstname`,`lastname`,`type`) VALUES ('$usn','$newpass','$email','$firstname','$lastname',0)");
+                                if ($query == true){
+                                    session_start();
+
+                                    $_SESSION['user'] = $usn;
+                                    $_SESSION['type'] = 0;
+
+                                    $error = "../index.php";
+                                }else{
+                                    echo "fck";
+                                    exit;
+                                }
                             }else{
                                 $error = "../signup.php?error=eme";
                             }
@@ -65,4 +76,11 @@ if (isset($_POST['signup'])){
     header("location: $error");
     exit;
 
+} else{
+    if(isset($_GET['logout'])){
+        session_start();
+        header('location: ../login.php');
+        session_destroy();
+        exit;
+    }
 }

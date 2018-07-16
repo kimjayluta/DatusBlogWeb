@@ -7,7 +7,7 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
     header("location: login.php");
     exit;
 }else{
-    if ($loggedType == 1){
+    if ($loggedType < 1){
         header("location: index.php");
     }
 }
@@ -122,26 +122,26 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
 <nav class="nav">
     <div class="container">
         <h2 style="margin: 6px 0 10px 0;float: left;">DatosAnalyticos</h2>
-        <a href="functions/lslfunction.php?logout" type="submit" id="logout"><i class="fas fa-sign-out-alt" ></i>Logout</a>
+        <a href="functions/lslfunction.php?logout" type="submit" id="logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
     </div>
 </nav>
 <!--Content-->
 <div class="container">
     <div class="row">
         <div class="colOne">
-            <ul>
-                <li><a href="index.php" class="link" ><i class="fas fa-home fa-lg" style="color: #a5a2a2;"></i> Home</a></li>
-                <li><a href="updates.php" class="link"><i class="fas fa-edit fa-lg" style="color: #a5a2a2;"></i> Updates</a></li>
-                <?php
-                if ($loggedType > 0){
-                    echo ' <li><a href="adminpost.php" class="link"><i class="fas fa-pen-alt fa-lg" style="color: #a5a2a2;"></i>  Post</a></li>';
-                    echo ' <li><a href="adminpost.php" class="link"><i class="fas fa-edit fa-lg" style="color: #a5a2a2;"></i> View reports</a></li>';
-                } else{
-                    echo '<li  class="active"><a href="sendreport.php" class="link">&nbsp;<i class="fas fa-file fa-lg" ></i>&nbsp;&nbsp;Report</a></li>';
-                }
-                ?>
-                <li><a href="#" class="link"><i class="fas fa-phone fa-lg" style="color: #a5a2a2;"></i>&nbsp;Contact us</a></li>
-            </ul>
+           <ul>
+               <li><a href="index.php" class="link" ><i class="fas fa-home fa-lg" style="color: #a5a2a2;"></i> Home</a></li>
+               <li><a href="updates.php" class="link"><i class="fas fa-edit fa-lg" style="color: #a5a2a2;"></i> Updates</a></li>
+               <?php
+               if ($loggedType > 0){
+                   echo ' <li  class="active"><a href="adminpost.php" class="link"><i class="fas fa-pen-alt fa-lg" ></i> Post</a></li>';
+                   echo ' <li><a href="adminpost.php" class="link"><i class="fas fa-edit fa-lg" style="color: #a5a2a2;"></i> View reports</a></li>';
+               } else{
+                   echo '<li><a href="sendreport.php" class="link">&nbsp;<i class="fas fa-file fa-lg" style="color: #a5a2a2;"></i>&nbsp;&nbsp;Report</a></li>';
+               }
+               ?>
+               <li><a href="#" class="link"><i class="fas fa-phone fa-lg" style="color: #a5a2a2;"></i>&nbsp;Contact us</a></li>
+           </ul>
         </div>
         <div>
             <div class="colTwo">
@@ -150,12 +150,11 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
                     <input type="text" name="title" class="title" placeholder=" Title here:" required="required">
                     <!--Transferring the input data from iframe to textarea-->
                     <div class="froala">
-                        <textarea name="text" required="required"></textarea>
-                        <select name="type" id="report">
-                            <option value="0">Public</option>
-                            <option value="1">Private</option>
-                        </select>
-                        <input type="submit" id="submit"  name="adminpost" value="Submit" />
+                    <textarea name="text" required="required"></textarea>
+                    <select name="type" id="report" style="display: none;quotes: ;">
+                        <option value="0">Public</option>
+                    </select>
+                    <input type="submit" id="submit"  name="adminpost" value="Submit" />
                     </div>
                 </form>
             </div>

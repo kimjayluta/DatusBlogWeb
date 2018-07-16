@@ -15,7 +15,7 @@
             font-family: Arial,sans-serif;
         }
         .card{
-            margin: 120px auto auto;
+            margin: 90px auto auto;
             padding: 20px 36px 36px;
             background-color: white;
             width: 374px;
