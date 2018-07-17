@@ -81,6 +81,7 @@ if (!isset($_SESSION['user']) && isset($_SESSION['type'])&& isset($_SESSION['id'
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Datus Analyticus| Blog</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
 </head>
 <body>
 <nav class="nav">

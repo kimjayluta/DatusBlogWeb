@@ -89,12 +89,18 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
             color: black;
             border-radius: 6px;
             border: 1px solid #222222;
-            margin-left: 42rem;
-            margin-top: 14px;
+            margin-top: 8px;
+            margin-left: 470px;
         }
         #submit:hover{
             background-color: #000000;
             color: white;
+        }
+        #report{
+            width: 200px;
+            margin-top: 10px;
+            float: left;
+            height: 23px;
         }
         ul{
             list-style: none;

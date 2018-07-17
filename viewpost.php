@@ -17,6 +17,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Datus Analyticus| Blog</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <style>
         body{
             margin: 0;
@@ -101,6 +105,9 @@
             margin-top: 5px;
             margin-left: 650px;
         }
+        .replysec{
+            display: none;
+        }
         .rbtn{
             padding: 6px;
             border: 1px solid #d4d3d3;
@@ -122,13 +129,13 @@
             color: #a5a2a2;
             text-decoration: none;
         }
-        #reply{
+        .reply{
             font-size: 15px;
             text-decoration: none;
             color: #5262d6;
             margin-left: 47rem;
         }
-        #reply:hover{
+        .reply:hover{
             color: blue;
         }
         ul{
@@ -193,7 +200,7 @@
                     echo '</div>';
                     echo '<div class="cmsec">';
                         echo '<form action="functions/postfunction.php?id='.$postid.'" name="comment" method="post">';
-                        echo '<textarea name="comment" class="comment" rows="3" placeholder="Comment here:"></textarea><br>';
+                        echo '<textarea name="comment" class="comment" rows="3" placeholder="Comment here:" required="required"></textarea><br>';
                         echo ' <button type="submit" name="cmnt" class="commentBtn">Submit</button>';
                         echo '</form>';
                         echo'</div>';
@@ -210,11 +217,18 @@
         foreach ($comment as $c){
             echo '<div class="commentcard">
                     <small>'.$c['username'].' | '.$c['comment_at'].'</small>
-                    <p>'.$c['comment_text'].'</p>
-                    <a href="#" id="reply">Reply |</a>
-                    <div class="replysec">
+                    <p>'.$c['comment_text'].'</p>';
+                    if($loggedId == $c['comment_by']){
+                        echo '<div>
+                                <a href="#" id="edit">Edit</a> | 
+                                <a href="#" id="delete">Delete</a>
+                              </div>';
+                    }else{
+                        echo '<a href="#" class="reply">Reply |</a>';
+                    }
+            echo '    <div class="replysec">
                         <hr>
-                        <form action="functions/postfunction.php?reply='.$c['id'].'" name="comment" method="post">
+                        <form action="functions/postfunction.php?reply='.$c['id'].'" name="reply" method="post">
                             <textarea name="replyArea" class="replyArea"  rows="3" placeholder="&nbsp;@'.$c['username'].'"></textarea><br>
                             <div class="replyBtn">
                                 <button type="submit" name="cmnt" class="rbtn">Cancel </button>
@@ -227,7 +241,16 @@
         ?>
     </div>
 </div>
+<!--Modal-->
+
 <script src="js/smooth-scroll.js"></script>
-<script src="js/jquery-3.2.1.min.js"></script>
+<!--<script src="js/jquery-3.2.1.min.js"></script>-->
+<script>
+    $(document).ready(function(){
+        $(".reply").on('click',function(){
+            $(this).parents(".commentcard").find(".replysec").slideToggle();
+        });
+    });
+</script>
 </body>
 </html>
