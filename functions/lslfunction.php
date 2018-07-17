@@ -79,8 +79,9 @@ if (isset($_POST['login'])){
 } else{
     if(isset($_GET['logout'])){
         session_start();
-        header('location: ../login.php');
         session_destroy();
+        unset($_SESSION['id'],$_SESSION['type'],$_SESSION['user']);
+        header('location: ../login.php');
         exit;
     }
 }

@@ -91,6 +91,27 @@
             background-color: #949292;
             border:1px solid #d4d3d3;
         }
+        .replyArea{
+            width: 806px;
+            border:1px solid #c1c1c1de;
+            margin-top: 11px;
+            border-radius: 5px;
+        }
+        .replyBtn{
+            margin-top: 5px;
+            margin-left: 650px;
+        }
+        .rbtn{
+            padding: 6px;
+            border: 1px solid #d4d3d3;
+            background: #ffffff;
+            width: 79px;
+            border-radius: 7px;
+        }
+        .rbtn:hover{
+            background-color: #949292;
+            border:1px solid #d4d3d3;
+        }
         .active{
             background: whitesmoke;
         }
@@ -140,7 +161,7 @@
                 <?php
                 if ($loggedType > 0){
                     echo ' <li><a href="adminpost.php" class="link"><i class="fas fa-pen-alt fa-lg" style="color: #a5a2a2;"></i>  Post</a></li>';
-                    echo ' <li><a href="#" class="link"><i class="fas fa-edit fa-lg" style="color: #a5a2a2;"></i> View reports</a></li>';
+                    echo ' <li><a href="viewreport.php" class="link"><i class="fas fa-envelope-open" style="color: #a5a2a2;"></i> View reports</a></li>';
                 } else{
                     echo '<li><a href="sendreport.php" class="link">&nbsp;<i class="fas fa-file fa-lg" style="color: #a5a2a2;"></i>&nbsp;&nbsp;Report</a></li>';
                 }
@@ -159,21 +180,21 @@
                 $query = mysqli_query($connect, "SELECT * FROM likepost WHERE user_id = '$loggedId' AND post_id = '$postid'");
                 foreach ($posts as $v){
                     echo '<div class="colTwo">';
-                        echo "<div>";
+                           echo "<div>";
                         echo "<h3>".$v['title']."</h3>";
                         echo "<small>".$v['username']." | ".$v['posted_at']."</small><hr/>";
                         echo "<p>".$v['description']."</p>";
                         if (!mysqli_num_rows($query) > 0){
-                            echo "<a href='functions/postfunction.php?id=".$postid."'>".$v['likes']."  Like</a><br>";
+                            echo "<a href='functions/postfunction.php?id=".$postid."' style='text-decoration:none; color:black;'>".$v['likes']." &nbsp;<i class=\"fas fa-thumbs-up\" style='color: #a5a2a2;'></i></a><br>";
                         }else{
-                            echo "<a href='functions/postfunction.php?id=".$postid."'>".$v['likes']." Unlike</a>";
+                            echo "<a href='functions/postfunction.php?id=".$postid."' style='text-decoration:none; color:black;'>".$v['likes']." &nbsp;<i class=\"fas fa-thumbs-up\" style='color: #0000ffb8;'></i></a>";
                         }
                         echo "</div>";
                     echo '</div>';
                     echo '<div class="cmsec">';
                         echo '<form action="functions/postfunction.php?id='.$postid.'" name="comment" method="post">';
-                        echo '<textarea name="comment" class="comment" id="" rows="3" placeholder="Comment here:"></textarea><br>';
-                        echo ' <button type="submit" name="cmnt"class="commentBtn">Submit</button>';
+                        echo '<textarea name="comment" class="comment" rows="3" placeholder="Comment here:"></textarea><br>';
+                        echo ' <button type="submit" name="cmnt" class="commentBtn">Submit</button>';
                         echo '</form>';
                         echo'</div>';
                 }
@@ -188,10 +209,20 @@
         }
         foreach ($comment as $c){
             echo '<div class="commentcard">
-                              <small>'.$c['username'].' | '.$c['comment_at'].'</small>
-                              <p>'.$c['comment_text'].'</p>
-                              <a href="#" id="reply">Reply |</a>
-                         </div>';
+                    <small>'.$c['username'].' | '.$c['comment_at'].'</small>
+                    <p>'.$c['comment_text'].'</p>
+                    <a href="#" id="reply">Reply |</a>
+                    <div class="replysec">
+                        <hr>
+                        <form action="functions/postfunction.php?reply='.$c['id'].'" name="comment" method="post">
+                            <textarea name="replyArea" class="replyArea"  rows="3" placeholder="&nbsp;@'.$c['username'].'"></textarea><br>
+                            <div class="replyBtn">
+                                <button type="submit" name="cmnt" class="rbtn">Cancel </button>
+                                <button type="submit" name="cmnt" class="rbtn">Submit </button>
+                            </div>
+                        </form>
+                    </div>
+                  </div>';
         }
         ?>
     </div>

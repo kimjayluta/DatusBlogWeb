@@ -135,7 +135,7 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
                <?php
                if ($loggedType > 0){
                    echo ' <li  class="active"><a href="adminpost.php" class="link"><i class="fas fa-pen-alt fa-lg" ></i> Post</a></li>';
-                   echo ' <li><a href="adminpost.php" class="link"><i class="fas fa-edit fa-lg" style="color: #a5a2a2;"></i> View reports</a></li>';
+                   echo ' <li><a href="viewreport.php" class="link"><i class="fas fa-envelope-open" style="color: #a5a2a2;"></i> View reports</a></li>';
                } else{
                    echo '<li><a href="sendreport.php" class="link">&nbsp;<i class="fas fa-file fa-lg" style="color: #a5a2a2;"></i>&nbsp;&nbsp;Report</a></li>';
                }
