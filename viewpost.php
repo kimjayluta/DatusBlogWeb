@@ -17,8 +17,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Datus Analyticus| Blog</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <!-- Include external CSS. -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
+    <!-- Include Editor style. -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.4/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.4/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
+    <!--<link rel="stylesheet" href="/resources/demos/style.css">-->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <style>
@@ -47,6 +54,7 @@
             margin-left: 10px;
         }
         .colTwo{
+            word-wrap: break-word;
             width: 800px;
             margin-left: 16rem;
             padding: 17px;
@@ -83,6 +91,7 @@
             border: 2px solid #d4d3d3;
         }
         .commentcard{
+            word-wrap: break-word;
             margin-top: 4px;
             border: 1px solid #d8d7d7;
             padding: 9px;
@@ -101,9 +110,18 @@
             margin-top: 11px;
             border-radius: 5px;
         }
+        .replycard{
+            word-wrap: break-word;
+            padding: 9px;
+            width: 810px;
+            margin-left: 257px;
+            background-color: #ececec;
+            font-family: sans-serif;
+            border-left: 6px solid #949494;
+        }
         .replyBtn{
             margin-top: 5px;
-            margin-left: 650px;
+            margin-left: 636px;
         }
         .replysec{
             display: none;
@@ -130,6 +148,12 @@
             text-decoration: none;
         }
         .reply{
+            font-size: 15px;
+            text-decoration: none;
+            color: #5262d6;
+            margin-left: 47rem;
+        }
+        .replys{
             font-size: 15px;
             text-decoration: none;
             color: #5262d6;
@@ -178,7 +202,7 @@
         </div>
         <div id="qpost">
             <?php
-                $postid = $_GET['id'];
+                @$postid = $_GET['id'];
                 $query = mysqli_query($connect,"SELECT posts.*,users.username FROM posts,users WHERE posts.user_id=users.id AND posts.id ='$postid'  ORDER BY `id` DESC");
                 $posts = array();
                 while ($row = mysqli_fetch_array($query)){
@@ -187,35 +211,47 @@
                 $query = mysqli_query($connect, "SELECT * FROM likepost WHERE user_id = '$loggedId' AND post_id = '$postid'");
                 foreach ($posts as $v){
                     echo '<div class="colTwo">';
-                           echo "<div>";
+                        echo "<div>";
                         echo "<h3>".$v['title']."</h3>";
                         echo "<small>".$v['username']." | ".$v['posted_at']."</small><hr/>";
                         echo "<p>".$v['description']."</p>";
                         if (!mysqli_num_rows($query) > 0){
-                            echo "<a href='functions/postfunction.php?id=".$postid."' style='text-decoration:none; color:black;'>".$v['likes']." &nbsp;<i class=\"fas fa-thumbs-up\" style='color: #a5a2a2;'></i></a><br>";
+                            echo "<a href='functions/postfunction.php?id=".$postid."' style='text-decoration:none; color:blue;'>".$v['likes']." &nbsp;<i class=\"fas fa-thumbs-up\" style='color: #a5a2a2;'></i>&nbsp;Like</a><br>";
                         }else{
-                            echo "<a href='functions/postfunction.php?id=".$postid."' style='text-decoration:none; color:black;'>".$v['likes']." &nbsp;<i class=\"fas fa-thumbs-up\" style='color: #0000ffb8;'></i></a>";
+                            echo "<a href='functions/postfunction.php?id=".$postid."' style='text-decoration:none; color:black;'>".$v['likes']." &nbsp;<i class=\"fas fa-thumbs-up\" style='color: #0000ffb8;'></i>&nbsp;Unlike</a>";
                         }
+
                         echo "</div>";
                     echo '</div>';
                     echo '<div class="cmsec">';
-                        echo '<form action="functions/postfunction.php?id='.$postid.'" name="comment" method="post">';
-                        echo '<textarea name="comment" class="comment" rows="3" placeholder="Comment here:" required="required"></textarea><br>';
-                        echo ' <button type="submit" name="cmnt" class="commentBtn">Submit</button>';
+                        echo ' <h3 style="margin-left: 5px">Comment here!</h3>';
+                        echo '<form action="functions/postfunction.php?id='.$postid.'" method="post">';
+                            echo '<textarea name="comment" class="comment" rows="3" placeholder="Comment here:" required="required"></textarea><br>';
+                            echo ' <button type="submit" name="cmnt" class="commentBtn">Submit</button>';
                         echo '</form>';
-                        echo'</div>';
+                    echo'</div>';
                 }
             ?>
         </div>
         <!--Comment query-->
         <?php
-        $query = mysqli_query($connect,"SELECT comments.*,users.username FROM comments,users WHERE comments.comment_by = users.id AND post_id = '$postid' ORDER BY id DESC");
+        $query = mysqli_query($connect,"SELECT comments.*,users.username FROM users,comments WHERE comments.comment_by = users.id AND comments.post_id = '$postid' ORDER BY comments.id DESC");
         $comment = array();
         while ($row = mysqli_fetch_array($query)){
             array_push($comment,$row);
         }
+
+
+        @ $sql = "SELECT reply.*,users.username FROM reply,users WHERE reply.post_id = '$postid' AND reply.reply_by = users.id ";
+        @ $query = mysqli_query($connect, $sql);
+        $reply = array();
+        while ($row = mysqli_fetch_array($query)){
+            $reply[$row['comment_id']][] = $row;
+        }
+
         foreach ($comment as $c){
-            echo '<div class="commentcard">
+            $commentId = $c['id'];
+            echo '<div class="commentcard" data-id="'.$commentId.'">
                     <small>'.$c['username'].' | '.$c['comment_at'].'</small>
                     <p>'.$c['comment_text'].'</p>';
                     if($loggedId == $c['comment_by']){
@@ -224,31 +260,65 @@
                                 <a href="#" id="delete">Delete</a>
                               </div>';
                     }else{
-                        echo '<a href="#" class="reply">Reply |</a>';
+                        echo '<a href="javascript:void(0)" class="reply">Reply</a>';
                     }
             echo '    <div class="replysec">
                         <hr>
-                        <form action="functions/postfunction.php?reply='.$c['id'].'" name="reply" method="post">
+                        <form action="functions/postfunction.php?commentId='.$c['id'].'&pid='.$postid.'"  method="post">
                             <textarea name="replyArea" class="replyArea"  rows="3" placeholder="&nbsp;@'.$c['username'].'"></textarea><br>
                             <div class="replyBtn">
-                                <button type="submit" name="cmnt" class="rbtn">Cancel </button>
-                                <button type="submit" name="cmnt" class="rbtn">Submit </button>
+                                <button class="rbtn">Cancel </button>
+                                <button type="submit" name="reply" class="rbtn">Submit </button>
                             </div>
                         </form>
                     </div>
                   </div>';
+
+            foreach ($reply[$commentId] as $r){
+                echo '<div class="replycard" >
+                        <small>'.@$r['username'].' | '.@$r['reply_at'].'</small>
+                        <p>'.@$r['reply_text'].'</p>';
+                        if($loggedId == $r['reply_by']){
+                            echo '<div>
+                                        <a href="#" id="edit">Edit</a> | 
+                                        <a href="#" id="delete">Delete</a>
+                                      </div>';
+                        }else{
+                            echo '<a href="javascript:void(0)" class="replys" >Reply</a>';
+                        }
+                echo'<div class="replysection" style="display: none;"><hr>
+                        <form action="functions/postfunction.php?commentId='.$c['id'].'&pid='.$postid.'"  method="post">
+                            <textarea name="replyArea" class="replyArea"  rows="3" placeholder="&nbsp;@'.$c['username'].'"></textarea><br>
+                            <div class="replyBtn">
+                                <button class="rbtn">Cancel </button>
+                                <button type="submit" name="reply" class="rbtn">Submit </button>
+                            </div>
+                        </form>
+                    </div>
+                  </div>';
+
+            }
         }
         ?>
     </div>
 </div>
-<!--Modal-->
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+<!-- Include Editor JS files. -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.4/js/froala_editor.pkgd.min.js"></script>
+<!-- Initialize the editor. -->
+<script> $(function() { $('textarea').froalaEditor() }); </script></body>
 <script src="js/smooth-scroll.js"></script>
-<!--<script src="js/jquery-3.2.1.min.js"></script>-->
 <script>
     $(document).ready(function(){
         $(".reply").on('click',function(){
             $(this).parents(".commentcard").find(".replysec").slideToggle();
+        });
+
+        $(".replys").on('click',function(){
+            $(this).parents(".replycard").find(".replysection").slideToggle();
         });
     });
 </script>

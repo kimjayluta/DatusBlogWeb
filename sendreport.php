@@ -48,7 +48,7 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
         }
         .colTwo{
             width: 800px;
-            height: 410px;
+            height: 100%;
             margin-left: 16rem;
             padding: 17px;
             background-color: white;

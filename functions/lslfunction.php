@@ -1,15 +1,16 @@
 <?php
 include "database.php";
 if (isset($_POST['login'])){
-    session_start();
     @$usn = $_POST['username'];
     @$pswd = $_POST['password'];
+
     if (isset($usn,$pswd)){
         $query = mysqli_query($connect, "SELECT * FROM `users` WHERE username ='$usn' ");
         $fetch = mysqli_fetch_array($query);
 
         if (mysqli_num_rows($query) > 0){
             if (password_verify($pswd,$fetch['password'])){
+                session_start();
                 $userType = $fetch['type'];
                 $_SESSION['user'] = $usn;
                 $_SESSION['id'] = $fetch['id'];

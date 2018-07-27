@@ -6,7 +6,6 @@ include "database.php";
 @$loggedId = $_SESSION['id'];
 @$loggedType = $_SESSION['type'];
 @$post_id = $_GET['id'];
-
 //Admin post function
 if (isset($_POST['adminpost'])){
     $title = $_POST['title'];
@@ -87,4 +86,24 @@ else if(isset($_GET['id'])){
         }
     }
 
+}
+//reply function
+else if(isset($_POST['reply'])) {
+    $pId = $_GET['pid'];
+    $cmtId = $_GET['commentId'];
+    $reply = $_POST['replyArea'];
+    if (isset($cmtId) && isset($reply) && isset($pId)) {
+        if ($reply < 160){
+            $query = mysqli_query($connect, "INSERT INTO reply(`reply_text`,`reply_at`,`comment_id`,`reply_by`,`post_id`) VALUES('$reply',now(),'$cmtId','$loggedId','$pId')");
+            if ($query == true){
+                header("location: ../viewpost.php?id=$pId&commentId=$cmtId");
+            }else{
+                echo  "Error: uploading data";
+                exit;
+            }
+        } else{
+            echo "your reply is too long";
+            exit;
+        }
+    }
 }

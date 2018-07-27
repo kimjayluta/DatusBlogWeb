@@ -48,7 +48,7 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
         }
         .colTwo{
             width: 800px;
-            height: 410px;
+            height: 100%;
             margin-left: 16rem;
             padding: 17px;
             background-color: white;
@@ -161,9 +161,6 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
         </div>
     </div>
 </div>
-
-
-
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>

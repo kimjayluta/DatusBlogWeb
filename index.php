@@ -3,7 +3,7 @@
     include "functions/database.php";
     @$loggedId = $_SESSION['id'];
     @$loggedType = $_SESSION['type'];
-    if (!isset($_SESSION['user']) && isset($_SESSION['type'])&& isset($_SESSION['id'])){
+    if (!isset($_SESSION['user']) && !isset($_SESSION['type'])&& !isset($_SESSION['id'])){
         header("location: login.php");
         exit;
     }
@@ -12,6 +12,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Datus Analyticus| Blog</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <style>
         body{
             margin: 0;
@@ -76,11 +81,6 @@
             background-color: whitesmoke;
         }
     </style>
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Datus Analyticus| Blog</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 </head>
 <body>
 <nav class="nav">
