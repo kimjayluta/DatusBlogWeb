@@ -70,26 +70,6 @@
             font-size: 16px;
             text-align: center;
         }
-        .cmsec{
-            margin-left: 16rem;
-            background-color: white;
-            width: 824px;
-            padding: 5px;
-            border:1px solid #d4d3d3;
-        }
-        .comment{
-            width: 807px;
-            border-radius: 5px;
-            margin-left: 9px;
-            margin-top: 9px;
-        }
-        .commentBtn{
-            margin-left: 44rem;
-            width: 113px;
-            height: 30px;
-            border-radius: 3px;
-            border: 2px solid #d4d3d3;
-        }
         .commentcard{
             word-wrap: break-word;
             margin-top: 4px;
@@ -99,10 +79,6 @@
             margin-left: 257px;
             background-color: #ececec;
             font-family: sans-serif;
-        }
-        .commentBtn:hover{
-            background-color: #949292;
-            border:1px solid #d4d3d3;
         }
         .replyArea{
             width: 806px;
@@ -209,27 +185,20 @@
                     array_push($posts,$row);
                 }
                 $query = mysqli_query($connect, "SELECT * FROM likepost WHERE user_id = '$loggedId' AND post_id = '$postid'");
-                foreach ($posts as $v){
+                foreach ($posts as $v) {
                     echo '<div class="colTwo">';
-                        echo "<div>";
-                        echo "<h3>".$v['title']."</h3>";
-                        echo "<small>".$v['username']." | ".$v['posted_at']."</small><hr/>";
-                        echo "<p>".$v['description']."</p>";
-                        if (!mysqli_num_rows($query) > 0){
-                            echo "<a href='functions/postfunction.php?id=".$postid."' style='text-decoration:none; color:blue;'>".$v['likes']." &nbsp;<i class=\"fas fa-thumbs-up\" style='color: #a5a2a2;'></i>&nbsp;Like</a><br>";
-                        }else{
-                            echo "<a href='functions/postfunction.php?id=".$postid."' style='text-decoration:none; color:black;'>".$v['likes']." &nbsp;<i class=\"fas fa-thumbs-up\" style='color: #0000ffb8;'></i>&nbsp;Unlike</a>";
+                        echo "<h3>" . $v['title'] . "</h3>";
+                        echo "<small>" . $v['username'] . " | " . $v['posted_at'] . "</small><hr/>";
+                        echo "<p>" . $v['description'] . "</p>";
+                        echo "<div style='text-align: center'>";
+                        if (!mysqli_num_rows($query) > 0) {
+                            echo "<a href='functions/postfunction.php?id=" . $postid . "' style='text-decoration:none; color:blue;'>" . $v['likes'] . " &nbsp;<i class=\"fas fa-thumbs-up\" style='color: #a5a2a2;'></i>&nbsp;Like |</a>";
+                        } else {
+                            echo "<a href='functions/postfunction.php?id=" . $postid . "' style='text-decoration:none; color:black;'>" . $v['likes'] . " &nbsp;<i class=\"fas fa-thumbs-up\" style='color: #0000ffb8;'></i>&nbsp;Unlike |</a>";
                         }
-
-                        echo "</div>";
+                        echo '<a href="comment.php?id='.$postid.'" style="text-decoration: none"> '.$v['comments'].' Comment</a>';
+                        echo '</div>';
                     echo '</div>';
-                    echo '<div class="cmsec">';
-                        echo ' <h3 style="margin-left: 5px">Comment here!</h3>';
-                        echo '<form action="functions/postfunction.php?id='.$postid.'" method="post">';
-                            echo '<textarea name="comment" class="comment" rows="3" placeholder="Comment here:" required="required"></textarea><br>';
-                            echo ' <button type="submit" name="cmnt" class="commentBtn">Submit</button>';
-                        echo '</form>';
-                    echo'</div>';
                 }
             ?>
         </div>
@@ -248,7 +217,6 @@
         while ($row = mysqli_fetch_array($query)){
             $reply[$row['comment_id']][] = $row;
         }
-
         foreach ($comment as $c){
             $commentId = $c['id'];
             echo '<div class="commentcard" data-id="'.$commentId.'">
@@ -274,19 +242,19 @@
                     </div>
                   </div>';
 
-            foreach ($reply[$commentId] as $r){
-                echo '<div class="replycard" >
+            if (isset($reply[$commentId])){
+
+                foreach ($reply[$commentId] as $r){
+                    echo '<div class="replycard" >
                         <small>'.@$r['username'].' | '.@$r['reply_at'].'</small>
                         <p>'.@$r['reply_text'].'</p>';
-                        if($loggedId == $r['reply_by']){
-                            echo '<div>
-                                        <a href="#" id="edit">Edit</a> | 
-                                        <a href="#" id="delete">Delete</a>
-                                      </div>';
-                        }else{
-                            echo '<a href="javascript:void(0)" class="replys" >Reply</a>';
-                        }
-                echo'<div class="replysection" style="display: none;"><hr>
+                    if($loggedId == $r['reply_by']){
+                        echo '<div>
+                                <a href="#" id="edit">Edit</a> | 
+                                <a href="#" id="delete">Delete</a>
+                              </div>';
+                    }
+                    echo'<div class="replysection" style="display: none;"><hr>
                         <form action="functions/postfunction.php?commentId='.$c['id'].'&pid='.$postid.'"  method="post">
                             <textarea name="replyArea" class="replyArea"  rows="3" placeholder="&nbsp;@'.$c['username'].'"></textarea><br>
                             <div class="replyBtn">
@@ -297,7 +265,9 @@
                     </div>
                   </div>';
 
+                }
             }
+
         }
         ?>
     </div>
@@ -309,16 +279,12 @@
 <!-- Include Editor JS files. -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.4/js/froala_editor.pkgd.min.js"></script>
 <!-- Initialize the editor. -->
-<script> $(function() { $('textarea').froalaEditor() }); </script></body>
+<script> $(function() { $('textarea').froalaEditor() }); </script>
 <script src="js/smooth-scroll.js"></script>
 <script>
     $(document).ready(function(){
         $(".reply").on('click',function(){
             $(this).parents(".commentcard").find(".replysec").slideToggle();
-        });
-
-        $(".replys").on('click',function(){
-            $(this).parents(".replycard").find(".replysection").slideToggle();
         });
     });
 </script>

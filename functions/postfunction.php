@@ -39,16 +39,16 @@ if (isset($_POST['adminpost'])){
 else if (isset($_POST['cmnt'])){
     $comment = $_POST['comment'];
     if (isset($comment) && isset($post_id)){
-        if (strlen($comment) <= 160){
-            $query = mysqli_query($connect,"INSERT INTO comments(`comment_text`,`comment_by`,`post_id`,`comment_at`) VALUES ('$comment','$loggedId','$post_id',now())");
-            if ($query == true){
-                header("location: ../viewpost.php?id=$post_id");
-            }else{
-                echo "Error: uploading a data";
-                exit;
-            }
+        $sql = "INSERT INTO comments(`comment_text`,`comment_by`,`post_id`,`comment_at`) VALUES ('$comment','$loggedId','$post_id',now());";
+        $query = mysqli_query($connect,$sql);
+        if ($query == true){
+
+            $sql = "UPDATE posts SET comments = comments + 1 WHERE id ='$post_id'";
+            $query = mysqli_query($connect,$sql);
+
+            header("location: ../viewpost.php?id=$post_id");
         }else{
-            echo "your post is too long!";
+            echo "Error: uploading a data";
             exit;
         }
     }

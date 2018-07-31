@@ -85,7 +85,7 @@
 <body>
 <nav class="nav">
     <div class="container">
-        <h2  style="margin: 6px 0 10px 0; float: left;">DatosAnalyticus</h2>
+        <h2  style="margin: 6px 0 10px 0; float: left;">DatosAnalyticos</h2>
         <a href="functions/lslfunction.php?logout" type="submit" id="logout"><i class="fas fa-sign-out-alt"  ></i>Logout</a>
     </div>
 </nav>
@@ -117,7 +117,7 @@
                  mysqli_free_result($query);
                 foreach ($posts as $p){
                     echo "<div class='colTwo'>";
-                    echo " <a href='viewpost.php?id=".$p['id']."' style='text-decoration-line:none; color: black; font-size: 22px;'><strong style='color:blue;'>[Update]</strong>".$p['title']."</a><br>";
+                    echo " <a href='viewpost.php?id=".$p['id']."' style='text-decoration-line:none; color: black; font-size: 22px;'><strong style='color:blue;'>[Update] </strong>".$p['title']."</a><br>";
                     echo "<small>".$p['username']." | ".$p['posted_at']." </small>";
                     echo "</div>";
                 }
