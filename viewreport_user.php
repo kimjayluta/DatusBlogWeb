@@ -1,12 +1,12 @@
 <?php
-    session_start();
-    include "functions/database.php";
-    @$loggedId = $_SESSION['id'];
-    @$loggedType = $_SESSION['type'];
-    if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type'])){
-        header("location: login.php");
-        exit;
-    }
+session_start();
+include "functions/database.php";
+@$loggedId = $_SESSION['id'];
+@$loggedType = $_SESSION['type'];
+if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type'])){
+    header("location: login.php");
+    exit;
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -138,6 +138,20 @@
         .reply:hover{
             color: blue;
         }
+        .createReport{
+            position: absolute;
+            margin-top: 10px;
+            border: 1px solid black;
+            padding: 10px 30px 10px 18px;
+            color: black;
+            text-decoration: none;
+            border-radius: 14px;
+            transition:background-color 1s;
+        }
+        .createReport:hover{
+            background-color: black;
+            color: white;
+        }
         ul{
             list-style: none;
             padding-left: 0 !important;
@@ -163,55 +177,50 @@
     <div class="row">
         <div class="colOne">
             <ul>
-                <li class="active"><a href="index.php" class="link" ><i class="fas fa-home fa-lg"></i> Home</a></li>
+                <li><a href="index.php" class="link" ><i class="fas fa-home fa-lg" style="color: #a5a2a2;"></i> Home</a></li>
                 <li><a href="updates.php" class="link"><i class="fas fa-edit fa-lg" style="color: #a5a2a2;"></i> Updates</a></li>
                 <?php
                 if ($loggedType > 0){
                     echo ' <li><a href="adminpost.php" class="link"><i class="fas fa-pen-alt fa-lg" style="color: #a5a2a2;"></i>  Post</a></li>';
                     echo ' <li><a href="sent_reports.php" class="link"><i class="fas fa-envelope-open" style="color: #a5a2a2;"></i> View reports</a></li>';
                 } else{
-                    echo '<li><a href="report.php" class="link">&nbsp;<i class="fas fa-file fa-lg" style="color: #a5a2a2;"></i>&nbsp;&nbsp;Report</a></li>';
+                    echo '<li class="active"><a href="report.php" class="link">&nbsp;<i class="fas fa-file fa-lg"></i>&nbsp;&nbsp;Report</a></li>';
                 }
                 ?>
                 <li><a href="#" class="link"><i class="fas fa-phone fa-lg" style="color: #a5a2a2;"></i>&nbsp;Contact us</a></li>
             </ul>
+            <a href="sendreport.php" class="createReport">Create a report?</a>
         </div>
         <div id="qpost">
             <?php
-                @$postid = $_GET['id'];
-                $query = mysqli_query($connect,"SELECT posts.*,users.username FROM posts,users WHERE posts.user_id=users.id AND posts.id ='$postid'  ORDER BY `id` DESC");
-                $posts = array();
-                while ($row = mysqli_fetch_array($query)){
-                    array_push($posts,$row);
-                }
-                $query = mysqli_query($connect, "SELECT * FROM likepost WHERE user_id = '$loggedId' AND post_id = '$postid'");
-                foreach ($posts as $v) {
-                    echo '<div class="colTwo">';
-                        echo "<h3>" . $v['title'] . "</h3>";
-                        echo "<small>" . $v['username'] . " | " . $v['posted_at'] . "</small><hr/>";
-                        echo "<p>" . $v['description'] . "</p>";
-                        echo "<div style='text-align: center'>";
-                        if (!mysqli_num_rows($query) > 0) {
-                            echo "<a href='functions/postfunction.php?id=" . $postid . "' style='text-decoration:none; color:blue;'>" . $v['likes'] . " &nbsp;<i class=\"fas fa-thumbs-up\" style='color: #a5a2a2;'></i>&nbsp;Like |</a>";
-                        } else {
-                            echo "<a href='functions/postfunction.php?id=" . $postid . "' style='text-decoration:none; color:black;'>" . $v['likes'] . " &nbsp;<i class=\"fas fa-thumbs-up\" style='color: #0000ffb8;'></i>&nbsp;Unlike |</a>";
-                        }
-                        echo '<a href="comment.php?id='.$postid.'" style="text-decoration: none"> '.$v['comments'].' Comment</a>';
-                        echo '</div>';
-                    echo '</div>';
-                }
+            @$reportId = $_GET['rpid'];
+            $query = mysqli_query($connect,"SELECT report.*,users.username FROM report,users WHERE report.user_id=users.id AND report.id ='$reportId'  ORDER BY `id` DESC");
+            $posts = array();
+            while ($row = mysqli_fetch_array($query)){
+                array_push($posts,$row);
+            }
+            foreach ($posts as $v) {
+                echo '<div class="colTwo">';
+                echo "<h3>" . $v['title'] . "</h3>";
+                echo "<small>" . $v['username'] . " | " . $v['send_at'] . "</small><hr/>";
+                echo "<p>" . $v['description'] . "</p>";
+                echo "<div style='text-align: center'>";
+                echo '<a href="comment.php?rpid='.$reportId.'" style="text-decoration: none">Comment</a>';
+                echo '</div>';
+                echo '</div>';
+            }
             ?>
         </div>
-        <!--Comment query-->
         <?php
-        $query = mysqli_query($connect,"SELECT comments.*,users.username FROM users,comments WHERE comments.comment_by = users.id AND comments.post_id = '$postid' ORDER BY comments.id DESC");
+        //Comment query
+        $query = mysqli_query($connect,"SELECT comments.*,users.username FROM users,comments WHERE comments.comment_by = users.id AND comments.report_id = '$reportId' ORDER BY id DESC");
         $comment = array();
         while ($row = mysqli_fetch_array($query)){
             array_push($comment,$row);
         }
 
-
-        @ $sql = "SELECT reply.*,users.username FROM reply,users WHERE reply.post_id = '$postid' AND reply.reply_by = users.id ";
+        //Reply query
+        @ $sql = "SELECT reply.*,users.username FROM reply,users WHERE reply.report_id = '$reportId' AND reply.reply_by = users.id ";
         @ $query = mysqli_query($connect, $sql);
         $reply = array();
         while ($row = mysqli_fetch_array($query)){
@@ -222,17 +231,17 @@
             echo '<div class="commentcard" data-id="'.$commentId.'">
                     <small>'.$c['username'].' | '.$c['comment_at'].'</small>
                     <p>'.$c['comment_text'].'</p>';
-                    if($loggedId == $c['comment_by']){
-                        echo '<div>
-                                <a href="#" id="edit">Edit</a> | 
-                                <a href="#" id="delete">Delete</a>
-                              </div>';
-                    }else{
-                        echo '<a href="javascript:void(0)" class="reply">Reply</a>';
-                    }
-            echo '    <div class="replysec">
+            if($loggedId == $c['comment_by']){
+                echo '<div>
+                        <a href="#" id="edit">Edit</a> | 
+                        <a href="#" id="delete">Delete</a>
+                      </div>';
+            }else{
+                echo '<a href="javascript:void(0)" class="reply">Reply</a>';
+            }
+            echo '  <div class="replysec">
                         <hr>
-                        <form action="functions/postfunction.php?commentId='.$c['id'].'&pid='.$postid.'"  method="post">
+                        <form action="functions/postfunction.php?commentId='.$c['id'].'&pid='.@$reportId.'"  method="post">
                             <textarea name="replyArea" class="replyArea"  rows="3" placeholder="&nbsp;@'.$c['username'].'"></textarea><br>
                             <div class="replyBtn">
                                 <button class="rbtn">Cancel </button>
@@ -255,7 +264,7 @@
                               </div>';
                     }
                     echo'<div class="replysection" style="display: none;"><hr>
-                        <form action="functions/postfunction.php?commentId='.$c['id'].'&pid='.$postid.'"  method="post">
+                        <form action="functions/postfunction.php?commentId='.$c['id'].'&pid='.@$reportId.'"  method="post">
                             <textarea name="replyArea" class="replyArea"  rows="3" placeholder="&nbsp;@'.$c['username'].'"></textarea><br>
                             <div class="replyBtn">
                                 <button class="rbtn">Cancel </button>
@@ -267,7 +276,6 @@
 
                 }
             }
-
         }
         ?>
     </div>

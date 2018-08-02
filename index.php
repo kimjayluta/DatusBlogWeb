@@ -99,9 +99,9 @@
                 <?php
                     if ($loggedType > 0){
                         echo ' <li><a href="adminpost.php" class="link"><i class="fas fa-pen-alt fa-lg" style="color: #a5a2a2;"></i>  Post</a></li>';
-                        echo ' <li><a href="viewreport.php" class="link"><i class="fas fa-envelope-open" style="color: #a5a2a2;"></i> View reports</a></li>';
+                        echo ' <li><a href="sent_reports.php" class="link"><i class="fas fa-envelope-open" style="color: #a5a2a2;"></i> View reports</a></li>';
                     } else{
-                        echo '<li><a href="sendreport.php" class="link">&nbsp;<i class="fas fa-file fa-lg" style="color: #a5a2a2;"></i>&nbsp;&nbsp;Report</a></li>';
+                        echo '<li><a href="report.php" class="link">&nbsp;<i class="fas fa-file fa-lg" style="color: #a5a2a2;"></i>&nbsp;&nbsp;Report</a></li>';
                     }
                 ?>
                 <li><a href="#" class="link"><i class="fas fa-phone fa-lg" style="color: #a5a2a2;"></i>&nbsp;Contact us</a></li>
@@ -117,7 +117,11 @@
                  mysqli_free_result($query);
                 foreach ($posts as $p){
                     echo "<div class='colTwo'>";
-                    echo " <a href='viewpost.php?id=".$p['id']."' style='text-decoration-line:none; color: black; font-size: 22px;'><strong style='color:blue;'>[Update] </strong>".$p['title']."</a><br>";
+                    if ($p['user_id'] == 2){
+                        echo " <a href='viewpost.php?id=".$p['id']."' style='text-decoration-line:none; color: black; font-size: 22px;'><strong style='color:blue;'>[Update] </strong>".$p['title']."</a><br>";
+                    } else{
+                        echo " <a href='viewpost.php?id=".$p['id']."' style='text-decoration-line:none; color: black; font-size: 22px;'><strong style='color:#bd5f3c;'>[Notice] </strong>".$p['title']."</a><br>";
+                    }
                     echo "<small>".$p['username']." | ".$p['posted_at']." </small>";
                     echo "</div>";
                 }

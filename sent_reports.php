@@ -6,6 +6,10 @@ include "functions/database.php";
 if (!isset($_SESSION['user']) && isset($_SESSION['type'])&& isset($_SESSION['id'])){
     header("location: login.php");
     exit;
+} else{
+    if ($loggedType < 1){
+        header("location: index.php");
+    }
 }
 ?>
 <!doctype html>
@@ -100,9 +104,9 @@ if (!isset($_SESSION['user']) && isset($_SESSION['type'])&& isset($_SESSION['id'
                 <?php
                 if ($loggedType > 0){
                     echo ' <li><a href="adminpost.php" class="link"><i class="fas fa-pen-alt fa-lg" style="color: #a5a2a2;"></i>  Post</a></li>';
-                    echo ' <li class="active"><a href="viewreport.php" class="link"><i class="fas fa-envelope-open" ></i> View reports</a></li>';
+                    echo ' <li class="active"><a href="sent_reports.php" class="link"><i class="fas fa-envelope-open" ></i> View reports</a></li>';
                 } else{
-                    echo '<li><a href="sendreport.php" class="link">&nbsp;<i class="fas fa-file fa-lg" style="color: #a5a2a2;"></i>&nbsp;&nbsp;Report</a></li>';
+                    echo '<li><a href="report.php" class="link">&nbsp;<i class="fas fa-file fa-lg" style="color: #a5a2a2;"></i>&nbsp;&nbsp;Report</a></li>';
                 }
                 ?>
                 <li><a href="#" class="link"><i class="fas fa-phone fa-lg" style="color: #a5a2a2;"></i>&nbsp;Contact us</a></li>
@@ -118,7 +122,7 @@ if (!isset($_SESSION['user']) && isset($_SESSION['type'])&& isset($_SESSION['id'
             mysqli_free_result($query);
             foreach ($posts as $p){
                 echo "<div class='colTwo'>";
-                echo " <a href='viewpost.php?id=".$p['id']."' style='text-decoration-line:none; color: black; font-size: 22px;'><strong style='color:indianred;'>[Report]</strong>".$p['title']."</a><br>";
+                echo " <a href='viewreport_ad.php?id=".$p['id']."' style='text-decoration-line:none; color: black; font-size: 22px;'><strong style='color:indianred;'>[Report]</strong>".$p['title']."</a><br>";
                 echo "<small>".$p['username']." | ".$p['send_at']." </small>";
                 echo "</div>";
             }

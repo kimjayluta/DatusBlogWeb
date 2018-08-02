@@ -75,6 +75,20 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
         .active{
             background: whitesmoke;
         }
+        .createReport{
+            position: absolute;
+            margin-top: 10px;
+            border: 1px solid black;
+            padding: 10px 30px 10px 18px;
+            color: black;
+            text-decoration: none;
+            border-radius: 14px;
+            transition:background-color 1s;
+        }
+        .createReport:hover{
+            background-color: black;
+            color: white;
+        }
         #logout{
             float: right;
             margin-top:10px;
@@ -141,13 +155,14 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
                 <?php
                 if ($loggedType > 0){
                     echo ' <li><a href="adminpost.php" class="link"><i class="fas fa-pen-alt fa-lg" style="color: #a5a2a2;"></i>  Post</a></li>';
-                    echo ' <li><a href="viewreport.php" class="link"><i class="fas fa-envelope-open" style="color: #a5a2a2;"></i> View reports</a></li>';
+                    echo ' <li><a href="sent_reports.php" class="link"><i class="fas fa-envelope-open" style="color: #a5a2a2;"></i> View reports</a></li>';
                 } else{
-                    echo '<li  class="active"><a href="sendreport.php" class="link">&nbsp;<i class="fas fa-file fa-lg" ></i>&nbsp;&nbsp;Report</a></li>';
+                    echo '<li  class="active"><a href="report.php" class="link">&nbsp;<i class="fas fa-file fa-lg" ></i>&nbsp;&nbsp;Report</a></li>';
                 }
                 ?>
                 <li><a href="#" class="link"><i class="fas fa-phone fa-lg" style="color: #a5a2a2;"></i>&nbsp;Contact us</a></li>
             </ul>
+            <a href="sendreport.php" class="createReport">Create a report?</a>
         </div>
         <div>
             <div class="colTwo">

@@ -6,7 +6,8 @@ include "database.php";
 @$loggedId = $_SESSION['id'];
 @$loggedType = $_SESSION['type'];
 @$post_id = $_GET['id'];
-//Admin post function
+@$report_id = $_GET['rpid'];
+//Admin post function && report function
 if (isset($_POST['adminpost'])){
     $title = $_POST['title'];
     $desc = $_POST['text'];
@@ -38,8 +39,10 @@ if (isset($_POST['adminpost'])){
 //Comment function
 else if (isset($_POST['cmnt'])){
     $comment = $_POST['comment'];
-    if (isset($comment) && isset($post_id)){
-        $sql = "INSERT INTO comments(`comment_text`,`comment_by`,`post_id`,`comment_at`) VALUES ('$comment','$loggedId','$post_id',now());";
+
+    //For commenting in post
+    if (isset($comment) && isset($post_id) && !isset($report_id)){
+        $sql = "INSERT INTO comments(`comment_text`,`comment_by`,`post_id`,`report_id`,`comment_at`) VALUES ('$comment','$loggedId','$post_id',NULL,now());";
         $query = mysqli_query($connect,$sql);
         if ($query == true){
 
@@ -52,7 +55,25 @@ else if (isset($_POST['cmnt'])){
             exit;
         }
     }
+
+    //For commenting in private report
+    if (isset($comment) && isset($report_id) && !isset($post_id) ){
+        $sql = "INSERT INTO comments(`comment_text`,`comment_by`,`post_id`,`report_id`,`comment_at`) VALUES ('$comment','$loggedId',NULL,'$report_id',now());";
+        $query = mysqli_query($connect,$sql);
+        if ($query == true){
+            //for counting the comments
+            $sql = "UPDATE posts SET comments = comments + 1 WHERE id ='$post_id'";
+            $query = mysqli_query($connect,$sql);
+            header("location: ../viewreport_user.php?rpid=$report_id");
+        }else{
+            echo "Error: uploading a data";
+            exit;
+        }
+    }
+
 }
+
+
 //Like function
 else if(isset($_GET['id'])){
     $query = mysqli_query($connect,"SELECT * FROM likepost WHERE user_id = '$loggedId' AND post_id = '$post_id'");
@@ -94,7 +115,8 @@ else if(isset($_POST['reply'])) {
     $reply = $_POST['replyArea'];
     if (isset($cmtId) && isset($reply) && isset($pId)) {
         if ($reply < 160){
-            $query = mysqli_query($connect, "INSERT INTO reply(`reply_text`,`reply_at`,`comment_id`,`reply_by`,`post_id`) VALUES('$reply',now(),'$cmtId','$loggedId','$pId')");
+            $sql = "INSERT INTO reply(`reply_text`,`reply_at`,`comment_id`,`reply_by`,`post_id`,`report_id`) VALUES('$reply',now(),'$cmtId','$loggedId','$pId',NULL)";
+            $query = mysqli_query($connect, $sql);
             if ($query == true){
                 header("location: ../viewpost.php?id=$pId&commentId=$cmtId");
             }else{
