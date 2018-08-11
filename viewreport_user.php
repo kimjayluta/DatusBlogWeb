@@ -15,7 +15,7 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Datus Analyticus| Blog</title>
+    <title>DatosAnalyticos| Blog</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <!-- Include external CSS. -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
@@ -28,142 +28,7 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
     <!--<link rel="stylesheet" href="/resources/demos/style.css">-->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <style>
-        body{
-            margin: 0;
-            background-color: whitesmoke;
-            font-family: Arial, sans-serif;
-        }
-        .nav{
-            height: 53px;
-            background-color: white;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #d8d7d7;
-            width: auto;
-        }
-        .container{
-            width: 1100px;
-            padding: 6px;
-            margin: auto;
-        }
-        .colOne{
-            background: white;
-            width: 171px;
-            float: left;
-            border-bottom:2px solid #bfbfbf6b;
-            margin-left: 10px;
-        }
-        .colTwo{
-            word-wrap: break-word;
-            width: 800px;
-            margin-left: 16rem;
-            padding: 17px;
-            background-color: white;
-            margin-bottom: 8px;
-            font-family: sans-serif;
-            border-bottom: 2px solid #d8d7d7;
-            border-left: 2px solid #d8d7d7;
-        }
-        .link{
-            text-decoration: none;
-            color: #000;
-            font-size: 16px;
-            text-align: center;
-        }
-        .commentcard{
-            word-wrap: break-word;
-            margin-top: 4px;
-            border: 1px solid #d8d7d7;
-            padding: 9px;
-            width: 814px;
-            margin-left: 257px;
-            background-color: #ececec;
-            font-family: sans-serif;
-        }
-        .replyArea{
-            width: 806px;
-            border:1px solid #c1c1c1de;
-            margin-top: 11px;
-            border-radius: 5px;
-        }
-        .replycard{
-            word-wrap: break-word;
-            padding: 9px;
-            width: 810px;
-            margin-left: 257px;
-            background-color: #ececec;
-            font-family: sans-serif;
-            border-left: 6px solid #949494;
-        }
-        .replyBtn{
-            margin-top: 5px;
-            margin-left: 636px;
-        }
-        .replysec{
-            display: none;
-        }
-        .rbtn{
-            padding: 6px;
-            border: 1px solid #d4d3d3;
-            background: #ffffff;
-            width: 79px;
-            border-radius: 7px;
-        }
-        .rbtn:hover{
-            background-color: #949292;
-            border:1px solid #d4d3d3;
-        }
-        .active{
-            background: whitesmoke;
-        }
-        #logout{
-            float: right;
-            margin-top:10px;
-            font-size: 21px;
-            color: #a5a2a2;
-            text-decoration: none;
-        }
-        .reply{
-            font-size: 15px;
-            text-decoration: none;
-            color: #5262d6;
-            margin-left: 47rem;
-        }
-        .replys{
-            font-size: 15px;
-            text-decoration: none;
-            color: #5262d6;
-            margin-left: 47rem;
-        }
-        .reply:hover{
-            color: blue;
-        }
-        .createReport{
-            position: absolute;
-            margin-top: 10px;
-            border: 1px solid black;
-            padding: 10px 30px 10px 18px;
-            color: black;
-            text-decoration: none;
-            border-radius: 14px;
-            transition:background-color 1s;
-        }
-        .createReport:hover{
-            background-color: black;
-            color: white;
-        }
-        ul{
-            list-style: none;
-            padding-left: 0 !important;
-        }
-        ul>li{
-            font-family: sans-serif;
-            padding: 10px;
-        }
-        li:hover{
-            background-color: whitesmoke;
-        }
-    </style>
+    <link rel="stylesheet" href="css/viewreport_user.css">
 </head>
 <body>
 <nav class="nav">
@@ -182,14 +47,14 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
                 <?php
                 if ($loggedType > 0){
                     echo ' <li><a href="adminpost.php" class="link"><i class="fas fa-pen-alt fa-lg" style="color: #a5a2a2;"></i>  Post</a></li>';
-                    echo ' <li><a href="sent_reports.php" class="link"><i class="fas fa-envelope-open" style="color: #a5a2a2;"></i> View reports</a></li>';
+                    echo ' <li class="active"><a href="sent_reports.php" class="link"><i class="fas fa-envelope-open"></i> View reports</a></li>';
                 } else{
                     echo '<li class="active"><a href="report.php" class="link">&nbsp;<i class="fas fa-file fa-lg"></i>&nbsp;&nbsp;Report</a></li>';
                 }
                 ?>
                 <li><a href="#" class="link"><i class="fas fa-phone fa-lg" style="color: #a5a2a2;"></i>&nbsp;Contact us</a></li>
             </ul>
-            <a href="sendreport.php" class="createReport">Create a report?</a>
+            <a href="sendreport.php" class="createReport" <?php if ($loggedType > 0){echo 'style="display: none"';}?>>Create a report?</a>
         </div>
         <div id="qpost">
             <?php
@@ -202,10 +67,16 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
             foreach ($posts as $v) {
                 echo '<div class="colTwo">';
                 echo "<h3>" . $v['title'] . "</h3>";
+                if($loggedId == $v['user_id']){
+                echo '<div class="editDeleteBtn">
+                        <a href="editPage.php?rpId='.$reportId.'" id="edit" class="editDelete">Edit |</a>
+                        <a href="#" id="delete" class="editDelete">Delete</a>
+                      </div>';
+                }
                 echo "<small>" . $v['username'] . " | " . $v['send_at'] . "</small><hr/>";
                 echo "<p>" . $v['description'] . "</p>";
-                echo "<div style='text-align: center'>";
-                echo '<a href="comment.php?rpid='.$reportId.'" style="text-decoration: none">Comment</a>';
+                echo "<div style='text-align: center; margin-top: 22px;'>";
+                echo '<a href="comment.php?rpid='.$reportId.'" class="cmtBtn">Comment</a>';
                 echo '</div>';
                 echo '</div>';
             }
@@ -229,19 +100,19 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
         foreach ($comment as $c){
             $commentId = $c['id'];
             echo '<div class="commentcard" data-id="'.$commentId.'">
-                    <small>'.$c['username'].' | '.$c['comment_at'].'</small>
-                    <p>'.$c['comment_text'].'</p>';
-            if($loggedId == $c['comment_by']){
-                echo '<div>
-                        <a href="#" id="edit">Edit</a> | 
-                        <a href="#" id="delete">Delete</a>
-                      </div>';
-            }else{
-                echo '<a href="javascript:void(0)" class="reply">Reply</a>';
-            }
+                    <small>'.$c['username'].' | '.$c['comment_at'].'</small>';
+                    if($loggedId == $c['comment_by']){
+                        echo '<div class="editDeleteBtn">
+                                <a href="editPage.php?replyRepId='.$commentId.'&reportId='.$reportId.'" id="edit" class="editDelete">Edit |</a>
+                                <a href="#" id="delete" class="editDelete">Delete</a>
+                              </div>';
+                    }else{
+                        echo '<a href="javascript:void(0)" class="reply">Reply</a>';
+                    }
+            echo '<p>'.$c['comment_text'].'</p>';
             echo '  <div class="replysec">
                         <hr>
-                        <form action="functions/postfunction.php?commentId='.$c['id'].'&pid='.@$reportId.'"  method="post">
+                        <form action="functions/postfunction.php?cmId='.$c['id'].'&rpid='.@$reportId.'"  method="post">
                             <textarea name="replyArea" class="replyArea"  rows="3" placeholder="&nbsp;@'.$c['username'].'"></textarea><br>
                             <div class="replyBtn">
                                 <button class="rbtn">Cancel </button>
@@ -252,17 +123,16 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
                   </div>';
 
             if (isset($reply[$commentId])){
-
                 foreach ($reply[$commentId] as $r){
                     echo '<div class="replycard" >
-                        <small>'.@$r['username'].' | '.@$r['reply_at'].'</small>
-                        <p>'.@$r['reply_text'].'</p>';
-                    if($loggedId == $r['reply_by']){
-                        echo '<div>
-                                <a href="#" id="edit">Edit</a> | 
-                                <a href="#" id="delete">Delete</a>
-                              </div>';
-                    }
+                        <small>'.@$r['username'].' | '.@$r['reply_at'].'</small>';
+                        if($loggedId == $r['reply_by']){
+                            echo '<div class="editDeleteBtn">
+                                    <a href="editPage.php?replypostid='.$r['id'].'&post_id='.$reportId.'" id="edit" class="editDelete">Edit |</a>
+                                    <a href="#" id="delete" class="editDelete">Delete</a>
+                                  </div>';
+                        }
+                    echo '<p>'.@$r['reply_text'].'</p>';
                     echo'<div class="replysection" style="display: none;"><hr>
                         <form action="functions/postfunction.php?commentId='.$c['id'].'&pid='.@$reportId.'"  method="post">
                             <textarea name="replyArea" class="replyArea"  rows="3" placeholder="&nbsp;@'.$c['username'].'"></textarea><br>

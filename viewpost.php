@@ -28,128 +28,7 @@
     <!--<link rel="stylesheet" href="/resources/demos/style.css">-->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <style>
-        body{
-            margin: 0;
-            background-color: whitesmoke;
-            font-family: Arial, sans-serif;
-        }
-        .nav{
-            height: 53px;
-            background-color: white;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #d8d7d7;
-            width: auto;
-        }
-        .container{
-            width: 1100px;
-            padding: 6px;
-            margin: auto;
-        }
-        .colOne{
-            background: white;
-            width: 171px;
-            float: left;
-            border-bottom:2px solid #bfbfbf6b;
-            margin-left: 10px;
-        }
-        .colTwo{
-            word-wrap: break-word;
-            width: 800px;
-            margin-left: 16rem;
-            padding: 17px;
-            background-color: white;
-            margin-bottom: 8px;
-            font-family: sans-serif;
-            border-bottom: 2px solid #d8d7d7;
-            border-left: 2px solid #d8d7d7;
-        }
-        .link{
-            text-decoration: none;
-            color: #000;
-            font-size: 16px;
-            text-align: center;
-        }
-        .commentcard{
-            word-wrap: break-word;
-            margin-top: 4px;
-            border: 1px solid #d8d7d7;
-            padding: 9px;
-            width: 814px;
-            margin-left: 257px;
-            background-color: #ececec;
-            font-family: sans-serif;
-        }
-        .replyArea{
-            width: 806px;
-            border:1px solid #c1c1c1de;
-            margin-top: 11px;
-            border-radius: 5px;
-        }
-        .replycard{
-            word-wrap: break-word;
-            padding: 9px;
-            width: 810px;
-            margin-left: 257px;
-            background-color: #ececec;
-            font-family: sans-serif;
-            border-left: 6px solid #949494;
-        }
-        .replyBtn{
-            margin-top: 5px;
-            margin-left: 636px;
-        }
-        .replysec{
-            display: none;
-        }
-        .rbtn{
-            padding: 6px;
-            border: 1px solid #d4d3d3;
-            background: #ffffff;
-            width: 79px;
-            border-radius: 7px;
-        }
-        .rbtn:hover{
-            background-color: #949292;
-            border:1px solid #d4d3d3;
-        }
-        .active{
-            background: whitesmoke;
-        }
-        #logout{
-            float: right;
-            margin-top:10px;
-            font-size: 21px;
-            color: #a5a2a2;
-            text-decoration: none;
-        }
-        .reply{
-            font-size: 15px;
-            text-decoration: none;
-            color: #5262d6;
-            margin-left: 47rem;
-        }
-        .replys{
-            font-size: 15px;
-            text-decoration: none;
-            color: #5262d6;
-            margin-left: 47rem;
-        }
-        .reply:hover{
-            color: blue;
-        }
-        ul{
-            list-style: none;
-            padding-left: 0 !important;
-        }
-        ul>li{
-            font-family: sans-serif;
-            padding: 10px;
-        }
-        li:hover{
-            background-color: whitesmoke;
-        }
-    </style>
+    <link rel="stylesheet" href="css/viewpost.css">
 </head>
 <body>
 <nav class="nav">
@@ -188,15 +67,21 @@
                 foreach ($posts as $v) {
                     echo '<div class="colTwo">';
                         echo "<h3>" . $v['title'] . "</h3>";
+                            if($loggedId == $v['user_id']){
+                                echo '<div class="editDeleteBtn">
+                                        <a href="editPage.php?pId='.$postid.'" class="editDelete">Edit |</a>
+                                        <a href="#" id="delete" class="editDelete">Delete</a>
+                                      </div>';
+                            }
                         echo "<small>" . $v['username'] . " | " . $v['posted_at'] . "</small><hr/>";
                         echo "<p>" . $v['description'] . "</p>";
-                        echo "<div style='text-align: center'>";
+                        echo "<div style='text-align: center; margin-top: 22px;'>";
                         if (!mysqli_num_rows($query) > 0) {
-                            echo "<a href='functions/postfunction.php?id=" . $postid . "' style='text-decoration:none; color:blue;'>" . $v['likes'] . " &nbsp;<i class=\"fas fa-thumbs-up\" style='color: #a5a2a2;'></i>&nbsp;Like |</a>";
+                            echo "<a href='functions/postfunction.php?id=" . $postid . "'class='likeBtn'>" . $v['likes'] . "&nbsp;Like</a>";
                         } else {
-                            echo "<a href='functions/postfunction.php?id=" . $postid . "' style='text-decoration:none; color:black;'>" . $v['likes'] . " &nbsp;<i class=\"fas fa-thumbs-up\" style='color: #0000ffb8;'></i>&nbsp;Unlike |</a>";
+                            echo "<a href='functions/postfunction.php?id=" . $postid . "' class='likeBtn'>" . $v['likes'] . " &nbsp;Unlike</a>";
                         }
-                        echo '<a href="comment.php?id='.$postid.'" style="text-decoration: none"> '.$v['comments'].' Comment</a>';
+                        echo "<a href='comment.php?id=".$postid."' class='cmtBtn'>" .$v['comments']. "&nbsp;Comment</a>";
                         echo '</div>';
                     echo '</div>';
                 }
@@ -220,19 +105,20 @@
         foreach ($comment as $c){
             $commentId = $c['id'];
             echo '<div class="commentcard" data-id="'.$commentId.'">
-                    <small>'.$c['username'].' | '.$c['comment_at'].'</small>
-                    <p>'.$c['comment_text'].'</p>';
+                    <small style="float: left;">'.$c['username'].' | '.$c['comment_at'].'</small>';
                     if($loggedId == $c['comment_by']){
-                        echo '<div>
-                                <a href="#" id="edit">Edit</a> | 
-                                <a href="#" id="delete">Delete</a>
+                        echo '<div class="editDeleteBtn">
+                                <a href="editPage.php?cmId='.$commentId.'&cpId='.$postid.'"  class="editDelete">Edit |</a>
+                                <a href="#" id="delete" class="editDelete">Delete</a>
                               </div>';
                     }else{
                         echo '<a href="javascript:void(0)" class="reply">Reply</a>';
                     }
+            echo '<p>'.$c['comment_text'].'</p>';
+
             echo '    <div class="replysec">
                         <hr>
-                        <form action="functions/postfunction.php?commentId='.$c['id'].'&pid='.$postid.'"  method="post">
+                        <form action="functions/postfunction.php?cmId='.$c['id'].'&pid='.$postid.'"  method="post">
                             <textarea name="replyArea" class="replyArea"  rows="3" placeholder="&nbsp;@'.$c['username'].'"></textarea><br>
                             <div class="replyBtn">
                                 <button class="rbtn">Cancel </button>
@@ -246,14 +132,14 @@
 
                 foreach ($reply[$commentId] as $r){
                     echo '<div class="replycard" >
-                        <small>'.@$r['username'].' | '.@$r['reply_at'].'</small>
-                        <p>'.@$r['reply_text'].'</p>';
-                    if($loggedId == $r['reply_by']){
-                        echo '<div>
-                                <a href="#" id="edit">Edit</a> | 
-                                <a href="#" id="delete">Delete</a>
-                              </div>';
-                    }
+                        <small>'.@$r['username'].' | '.@$r['reply_at'].'</small>';
+                        if($loggedId == $r['reply_by']){
+                            echo '<div class="editDeleteBtn">
+                                    <a href="editPage.php?replyId='.$r['id'].'&postid='.$postid.'" class="editDelete">Edit |</a>
+                                    <a href="#" id="delete" class="editDelete">Delete</a>
+                                  </div>';
+                        }
+                    echo '<p>'.@$r['reply_text'].'</p>';
                     echo'<div class="replysection" style="display: none;"><hr>
                         <form action="functions/postfunction.php?commentId='.$c['id'].'&pid='.$postid.'"  method="post">
                             <textarea name="replyArea" class="replyArea"  rows="3" placeholder="&nbsp;@'.$c['username'].'"></textarea><br>

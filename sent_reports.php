@@ -16,70 +16,7 @@ if (!isset($_SESSION['user']) && isset($_SESSION['type'])&& isset($_SESSION['id'
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <style>
-        body{
-            margin: 0;
-            background-color: whitesmoke;
-        }
-        *{
-            font-family: Arial, sans-serif;
-        }
-        .nav{
-            height: 53px;
-            background-color: white;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #d8d7d7;
-        }
-        .container{
-            width: 1100px;
-            padding: 6px;
-            margin: auto;
-        }
-        .colOne{
-            background: white;
-            width: 171px;
-            float: left;
-            border-bottom:2px solid #bfbfbf6b;
-            margin-left: 10px;
-        }
-        .colTwo{
-            width: 800px;
-            margin-left: 16rem;
-            padding: 17px;
-            background-color: white;
-            margin-bottom: 8px;
-            font-family: sans-serif;
-            border-bottom: 2px solid #d8d7d7;
-            border-left: 2px solid #d8d7d7;
-        }
-        .link{
-            text-decoration: none;
-            color: #000;
-            font-size: 16px;
-            text-align: center;
-        }
-        .active{
-            background: whitesmoke;
-        }
-        #logout{
-            float: right;
-            margin-top: 10px;
-            font-size: 21px;
-            color: #a5a2a2;
-            text-decoration: none;
-        }
-        ul{
-            list-style: none;
-            padding-left: 0 !important;
-        }
-        ul>li{
-            font-family: sans-serif;
-            padding: 10px;
-        }
-        li:hover{
-            background-color: whitesmoke;
-        }
-    </style>
+    <link rel="stylesheet" href="css/sent_reports.css">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -122,7 +59,7 @@ if (!isset($_SESSION['user']) && isset($_SESSION['type'])&& isset($_SESSION['id'
             mysqli_free_result($query);
             foreach ($posts as $p){
                 echo "<div class='colTwo'>";
-                echo " <a href='viewreport_ad.php?id=".$p['id']."' style='text-decoration-line:none; color: black; font-size: 22px;'><strong style='color:indianred;'>[Report]</strong>".$p['title']."</a><br>";
+                echo " <a href='viewreport_user.php?rpid=".$p['id']."' style='text-decoration-line:none; color: black; font-size: 22px;'><strong style='color:indianred;'>[Report]</strong>".$p['title']."</a><br>";
                 echo "<small>".$p['username']." | ".$p['send_at']." </small>";
                 echo "</div>";
             }

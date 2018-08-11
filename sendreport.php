@@ -19,115 +19,7 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <style>
-        *{
-            font-family: Arial, sans-serif;
-        }
-        body{
-            margin: 0;
-            background-color: whitesmoke;
-        }
-        .nav{
-            height: 53px;
-            background-color: white;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #d8d7d7;
-            width: auto;
-        }
-        .container{
-            width: 1100px;
-            padding: 6px;
-            margin: auto;
-        }
-        .colOne{
-            background: white;
-            width: 171px;
-            float: left;
-            border-bottom:2px solid #bfbfbf6b;
-            margin-left: 10px;
-        }
-        .colTwo{
-            width: 800px;
-            height: 100%;
-            margin-left: 16rem;
-            padding: 17px;
-            background-color: white;
-            margin-bottom: 8px;
-            font-family: sans-serif;
-            border-bottom: 2px solid #d8d7d7;
-            border-left: 2px solid #d8d7d7;
-        }
-        .link{
-            text-decoration: none;
-            color: #000;
-            font-size: 16px;
-            text-align: center;
-        }
-        .title{
-            width: 789px;
-            margin-bottom: 11px;
-            height: 33px;
-            border: 1px solid #d4d4d4;
-        }
-        .myForm{
-            margin-left: 9px;
-        }
-        .active{
-            background: whitesmoke;
-        }
-        .createReport{
-            position: absolute;
-            margin-top: 10px;
-            border: 1px solid black;
-            padding: 10px 30px 10px 18px;
-            color: black;
-            text-decoration: none;
-            border-radius: 14px;
-            transition:background-color 1s;
-        }
-        .createReport:hover{
-            background-color: black;
-            color: white;
-        }
-        #logout{
-            float: right;
-            margin-top:10px;
-            font-size: 21px;
-            color: #a5a2a2;
-            text-decoration: none;
-        }
-        #submit{
-            height: 38px;
-            width: 120px;
-            background-color:#ffffff00;
-            color: black;
-            border-radius: 6px;
-            border: 1px solid #222222;
-            margin-top: 8px;
-            margin-left: 470px;
-        }
-        #submit:hover{
-            background-color: #000000;
-            color: white;
-        }
-        #report{
-            width: 200px;
-            margin-top: 10px;
-            float: left;
-            height: 23px;
-        }
-        ul{
-            list-style: none;
-            padding-left: 0 !important;
-        }
-        ul>li{
-            font-family: sans-serif;
-            padding: 10px;
-        }
-        li:hover{
-            background-color: whitesmoke;
-        }
-    </style>
+    <link rel="stylesheet" href="css/sendreport.css">
     <title>Datus Analyticus| Report</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <!-- Include external CSS. -->
@@ -172,11 +64,11 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
                     <div class="froala">
                         <textarea name="text" required="required"></textarea>
                         <select name="type" id="report">
-                            <option value="0">Public</option>
                             <option value="1">Private</option>
-                        </select><br>
-                        <small>If you choose public your report will be posted in post page. If you report on private your report will derictly send to admin</small>
+                            <option value="0">Public</option>
+                        </select>
                         <input type="submit" id="submit"  name="adminpost" value="Submit" />
+                        <p style="font-size: 12px; color: #adadad;">{ Note: If you choose public your report will be posted in post page. If you report on private your report will derictly send to admin }</p>
                     </div>
                 </form>
             </div>

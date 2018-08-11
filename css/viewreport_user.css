@@ -1,0 +1,168 @@
+body{
+    margin: 0;
+    background-color: whitesmoke;
+    font-family: Arial, sans-serif;
+}
+.nav{
+    height: 53px;
+    background-color: white;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #d8d7d7;
+    width: auto;
+}
+.container{
+    width: 1100px;
+    padding: 6px;
+    margin: auto;
+}
+.colOne{
+    background: white;
+    width: 171px;
+    float: left;
+    border-bottom:2px solid #bfbfbf6b;
+    margin-left: 10px;
+}
+.colTwo{
+    word-wrap: break-word;
+    width: 800px;
+    margin-left: 16rem;
+    padding: 17px;
+    background-color: white;
+    margin-bottom: 8px;
+    font-family: sans-serif;
+    border-bottom: 2px solid #d8d7d7;
+    border-left: 2px solid #d8d7d7;
+}
+.link{
+    text-decoration: none;
+    color: #000;
+    font-size: 16px;
+    text-align: center;
+}
+.cmtBtn{
+    text-decoration: none;
+    padding: 10px 32px;
+    color: white;
+    background: #28a745;
+    border-radius: 5px;
+    margin-left: 10px;
+    transition: background-color 1s;
+}
+.cmtBtn:hover{
+    background-color: #2b753c;
+}
+.commentcard{
+    word-wrap: break-word;
+    margin-top: 4px;
+    border: 1px solid #d8d7d7;
+    padding: 9px;
+    width: 814px;
+    margin-left: 257px;
+    background-color: #ececec;
+    font-family: sans-serif;
+}
+.replyArea{
+    width: 806px;
+    border:1px solid #c1c1c1de;
+    margin-top: 11px;
+    border-radius: 5px;
+}
+.replycard{
+    word-wrap: break-word;
+    padding: 9px;
+    width: 810px;
+    margin-left: 257px;
+    background-color: #ececec;
+    font-family: sans-serif;
+    border-left: 6px solid #949494;
+}
+.replyBtn{
+    margin-top: 5px;
+    margin-left: 636px;
+}
+.replysec{
+    display: none;
+}
+.rbtn{
+    padding: 6px;
+    border: 1px solid #d4d3d3;
+    background: #ffffff;
+    width: 79px;
+    border-radius: 7px;
+}
+.rbtn:hover{
+    background-color: #949292;
+    border:1px solid #d4d3d3;
+}
+.editDeleteBtn{
+    text-decoration: none;
+    float: right;
+}
+.editDelete{
+    text-decoration: none;
+    color: #adadad;
+}
+.editDelete:hover{
+    color: black;
+}
+.active{
+    background: whitesmoke;
+}
+#logout{
+    float: right;
+    margin-top:10px;
+    font-size: 21px;
+    color: #a5a2a2;
+    text-decoration: none;
+}
+.reply{
+    font-size: 15px;
+    text-decoration: none;
+    color: #5262d6;
+    float: right;
+}
+.replys{
+    font-size: 15px;
+    text-decoration: none;
+    color: #5262d6;
+    margin-left: 47rem;
+}
+.reply:hover{
+    color: blue;
+}
+.createReport{
+    position: absolute;
+    margin-top: 10px;
+    border: 1px solid black;
+    padding: 10px 30px 10px 18px;
+    color: black;
+    text-decoration: none;
+    border-radius: 14px;
+    transition:background-color 1s;
+}
+.createReport:hover{
+    background-color: black;
+    color: white;
+}
+.editDeleteBtn{
+    text-decoration: none;
+    float: right;
+}
+.editDelete{
+    text-decoration: none;
+    color: #adadad;
+}
+.editDelete:hover{
+    color: black;
+}
+ul{
+    list-style: none;
+    padding-left: 0 !important;
+}
+ul>li{
+    font-family: sans-serif;
+    padding: 10px;
+}
+li:hover{
+    background-color: whitesmoke;
+}

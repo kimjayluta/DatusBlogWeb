@@ -26,92 +26,7 @@
     <!-- Include Editor style. -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.4/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.4/css/froala_style.min.css" rel="stylesheet" type="text/css" />
-    <style>
-        *{
-            font-family: Arial, sans-serif;
-        }
-        body{
-            margin: 0;
-            background-color: whitesmoke;
-        }
-        .nav{
-            height: 53px;
-            background-color: white;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #d8d7d7;
-            width: auto;
-        }
-        .container{
-            width: 1100px;
-            padding: 6px;
-            margin: auto;
-        }
-        .colOne{
-            background: white;
-            width: 171px;
-            float: left;
-            border-bottom:2px solid #bfbfbf6b;
-            margin-left: 10px;
-        }
-        .colTwo{
-            width: 800px;
-            height: 100%;
-            margin-left: 16rem;
-            padding: 17px;
-            background-color: white;
-            margin-bottom: 8px;
-            font-family: sans-serif;
-            border-bottom: 2px solid #d8d7d7;
-            border-left: 2px solid #d8d7d7;
-        }
-        .link{
-            text-decoration: none;
-            color: #000;
-            font-size: 16px;
-            text-align: center;
-        }
-        .title{
-            width: 789px;
-            margin-bottom: 11px;
-            height: 33px;
-            border: 1px solid #d4d4d4;
-        }
-        .active{
-            background: whitesmoke;
-        }
-        #logout{
-            float: right;
-            margin-top:10px;
-            font-size: 21px;
-            color: #a5a2a2;
-            text-decoration: none;
-        }
-        #submit{
-            height: 38px;
-            width: 120px;
-            background-color:#ffffff00;
-            color: black;
-            border-radius: 6px;
-            border: 1px solid #222222;
-            margin-left: 42rem;
-            margin-top: 14px;
-        }
-        #submit:hover{
-            background-color: #000000;
-            color: white;
-        }
-        ul{
-            list-style: none;
-            padding-left: 0 !important;
-        }
-        ul>li{
-            font-family: sans-serif;
-            padding: 10px;
-        }
-        li:hover{
-            background-color: whitesmoke;
-        }
-    </style>
+    <link rel="stylesheet" href="css/comment.css">
 </head>
 <body>
 <nav class="nav">
@@ -143,7 +58,7 @@
                             <li><a href="updates.php" class="link"><i class="fas fa-edit fa-lg" style="color: #a5a2a2;"></i> Updates</a></li>';
                             if ($loggedType > 0){
                                 echo ' <li><a href="adminpost.php" class="link"><i class="fas fa-pen-alt fa-lg" style="color: #a5a2a2;" ></i> Post</a></li>';
-                                echo ' <li><a href="sent_reports.php" class="link"><i class="fas fa-envelope-open" style="color: #a5a2a2;"></i> View reports</a></li>';
+                                echo ' <li class="active" ><a href="sent_reports.php" class="link"><i class="fas fa-envelope-open"></i> View reports</a></li>';
                             } else{
                                 echo '<li class="active" ><a href="report.php" class="link">&nbsp;<i class="fas fa-file fa-lg"></i>&nbsp;&nbsp;Report</a></li>';
                             }
@@ -155,7 +70,7 @@
         <div>
             <div class="colTwo">
                 <h3 style="margin-left: 8px;">Comment here:</h3>
-                <form  class="myForm" action="functions/postfunction.php?<?php if(!$postId == NULL){echo 'id='.$postId;}else{ echo 'rpid='.$reportId;} ?>" name="myForm" id="myForm" method="post">
+                <form  class="myForm" action="functions/postfunction.php?<?php if(!$postId == NULL){echo 'id='.$postId;}else{ echo 'rpid='.$reportId;}?>" name="myForm" id="myForm" method="post">
                     <textarea name="comment" required="required" class="textarea"></textarea>
                     <input type="submit" id="submit" name="cmnt" value="Submit" />
                 </form>
@@ -181,4 +96,4 @@
     });
 </script>
 </body>
-</html>s
+</html>

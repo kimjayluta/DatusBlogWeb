@@ -17,70 +17,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Datus Analyticus| Blog</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-    <style>
-        body{
-            margin: 0;
-            background-color: whitesmoke;
-        }
-        *{
-            font-family: Arial, sans-serif;
-        }
-        .nav{
-            height: 53px;
-            background-color: white;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #d8d7d7;
-        }
-        .container{
-            width: 1100px;
-            padding: 6px;
-            margin: auto;
-        }
-        .colOne{
-            background: white;
-            width: 171px;
-            float: left;
-            border-bottom:2px solid #bfbfbf6b;
-            margin-left: 10px;
-        }
-        .colTwo{
-            width: 800px;
-            margin-left: 16rem;
-            padding: 17px;
-            background-color: white;
-            margin-bottom: 8px;
-            font-family: sans-serif;
-            border-bottom: 2px solid #d8d7d7;
-            border-left: 2px solid #d8d7d7;
-        }
-        .link{
-            text-decoration: none;
-            color: #000;
-            font-size: 16px;
-            text-align: center;
-        }
-        .active{
-            background: whitesmoke;
-        }
-        #logout{
-            float: right;
-            margin-top: 10px;
-            font-size: 21px;
-            color: #a5a2a2;
-            text-decoration: none;
-        }
-        ul{
-            list-style: none;
-            padding-left: 0 !important;
-        }
-        ul>li{
-            font-family: sans-serif;
-            padding: 10px;
-        }
-        li:hover{
-            background-color: whitesmoke;
-        }
-    </style>
+    <link rel="stylesheet" href="css/updates.css">
 </head>
 <body>
 <nav class="nav">
@@ -117,7 +54,11 @@
             mysqli_free_result($query);
             foreach ($posts as $p){
                 echo "<div class='colTwo'>";
-                echo " <a href='viewpost.php?id=".$p['id']."' style='text-decoration-line:none; color: black; font-size: 22px;'><strong style='color:blue;'>[Update]</strong>".$p['title']."</a><br>";
+                if ($p['user_id'] == 2){
+                    echo " <a href='viewpost.php?id=".$p['id']."' style='text-decoration-line:none; color: black; font-size: 22px;'><strong style='color:blue;'>[Update] </strong>".$p['title']."</a><br>";
+                } else{
+                    echo " <a href='viewpost.php?id=".$p['id']."' style='text-decoration-line:none; color: black; font-size: 22px;'><strong style='color:#bd5f3c;'>[Notice] </strong>".$p['title']."</a><br>";
+                }
                 echo "<small>".$p['username']." | ".$p['posted_at']." </small>";
                 echo "</div>";
             }
