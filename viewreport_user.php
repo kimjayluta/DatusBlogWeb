@@ -113,7 +113,7 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
             echo '  <div class="replysec">
                         <hr>
                         <form action="functions/postfunction.php?cmId='.$c['id'].'&rpid='.@$reportId.'"  method="post">
-                            <textarea name="replyArea" class="replyArea"  rows="3" placeholder="&nbsp;@'.$c['username'].'"></textarea><br>
+                            <textarea name="replyArea" class="replyArea textarea"  rows="3" placeholder="&nbsp;@'.$c['username'].'"></textarea><br>
                             <div class="replyBtn">
                                 <button class="rbtn">Cancel </button>
                                 <button type="submit" name="reply" class="rbtn">Submit </button>
@@ -135,7 +135,7 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
                     echo '<p>'.@$r['reply_text'].'</p>';
                     echo'<div class="replysection" style="display: none;"><hr>
                         <form action="functions/postfunction.php?commentId='.$c['id'].'&pid='.@$reportId.'"  method="post">
-                            <textarea name="replyArea" class="replyArea"  rows="3" placeholder="&nbsp;@'.$c['username'].'"></textarea><br>
+                            <textarea name="replyArea" class="replyArea textarea"  rows="3" placeholder="&nbsp;@'.$c['username'].'"></textarea><br>
                             <div class="replyBtn">
                                 <button class="rbtn">Cancel </button>
                                 <button type="submit" name="reply" class="rbtn">Submit </button>
@@ -164,6 +164,16 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
         $(".reply").on('click',function(){
             $(this).parents(".commentcard").find(".replysec").slideToggle();
         });
+    });
+
+    $(function() {
+        $('.textarea').froalaEditor({
+            // Set the file upload URL.
+            imageUploadURL: 'upload_image.php',
+            /*imageUploadParams: {
+             id: 'my_editor'
+             }*/
+        })
     });
 </script>
 </body>

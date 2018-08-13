@@ -62,7 +62,7 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
                 <form  class="myForm" action="functions/postfunction.php" name="myForm" id="myForm" method="post">
                     <input type="text" name="title" class="title" placeholder=" Title here:" required="required">
                     <div class="froala">
-                        <textarea name="text" required="required"></textarea>
+                        <textarea name="text" required="required" class="textarea"></textarea>
                         <select name="type" id="report">
                             <option value="1">Private</option>
                             <option value="0">Public</option>
@@ -84,8 +84,17 @@ if (!isset($_SESSION['user']) && isset($_SESSION['id']) && isset($_SESSION['type
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
 <!-- Include Editor JS files. -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.4/js/froala_editor.pkgd.min.js"></script>
-<!-- Initialize the editor. -->
-<script> $(function() { $('textarea').froalaEditor() }); </script></body>
 <script src="js/smooth-scroll.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $('.textarea').froalaEditor({
+            // Set the file upload URL.
+            imageUploadURL: 'upload_image.php',
+            /*imageUploadParams: {
+             id: 'my_editor'
+             }*/
+        })
+    });
+</script>
 </body>
 </html>
