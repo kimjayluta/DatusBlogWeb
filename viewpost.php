@@ -116,7 +116,7 @@
                     }
             echo '<p>'.$c['comment_text'].'</p>';
 
-            echo '    <div class="replysec">
+            echo '  <div class="replysec">
                         <hr>
                         <form action="functions/postfunction.php?cmId='.$c['id'].'&pid='.$postid.'"  method="post">
                             <textarea name="replyArea" class="replyArea"  rows="3" placeholder="&nbsp;@'.$c['username'].'"></textarea><br>
